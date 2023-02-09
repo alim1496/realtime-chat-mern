@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Oxygen";
+    src: url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300&display=swap");
+  }
+}
 
 body {
   margin: 0;

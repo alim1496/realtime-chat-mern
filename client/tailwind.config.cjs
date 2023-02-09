@@ -10,6 +10,9 @@ module.exports = {
         'login': "url('/bg-img.jpg')",
       }
     },
+    fontFamily: {
+      sans: ['Oxygen', 'sans-serif']
+    }
   },
   plugins: [],
 }
