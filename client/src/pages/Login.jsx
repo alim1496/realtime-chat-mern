@@ -9,6 +9,7 @@ const Login = () => {
 
   const doLogin = () => {
     if (username === "" || password === "") return;
+    localStorage.setItem("username", username);
     navigate("/", { state: { username }});
   };
 

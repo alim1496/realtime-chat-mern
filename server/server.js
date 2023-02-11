@@ -10,17 +10,31 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", (socket) => {
-  console.log(`User connected with Socket id ${socket.id}`);
+  socket.on("join_room", (data) => {
+    const { username, room} = data;
+    socket.join(room);
+  });
+
+  socket.on("send_message", (data) => {
+    const { username, msg, timeCreated, room } = data;
+    io.in(room).emit('receive_message', data);
+  });
+
+  socket.on("leave_room", (data) => {
+    const { username, room } = data;
+    socket.leave(room);
+    console.log(`${username} has left ${room}`);
+  });
 });
 
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-server.listen(4000, () => "Server is running on port 4000");
+server.listen(4000, () => console.log("Server is running on port 4000"));
