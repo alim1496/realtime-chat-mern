@@ -1,13 +1,22 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MainContext } from '../App';
 import Messages from '../components/Messages';
 
 const Room = () => {
   const { room, socket } = useContext(MainContext);
   const navigate = useNavigate();
+  const params = useParams();
   const username = localStorage.getItem("username");
   const [msg, setMsg] = useState("");
+  const [current, setCurrent] = useState({});
+
+  useEffect(() => {
+    fetch(`http://localhost:4000/api/v1/rooms/${params.id}`)
+    .then(res => res.json())
+    .then(({ result }) => setCurrent(result))
+    .catch(err => console.log(err));
+  }, []);
 
   const pressSend = (e) => {
     if(e.key === "Enter") {
@@ -34,7 +43,10 @@ const Room = () => {
         <div className="w-1/4">Left</div>
         <div className="w-1/2 border-2 h-screen relative flex flex-col justify-end">
           <div className="flex justify-between items-center px-4 py-2 bg-white absolute top-0 left-0 right-0 shadow-sm z-50">
-            <span className="text-xl font-semibold">{room}</span>
+            <div className="flex items-center">
+              <img src={current.cover} className="h-10 w-10 rounded-full" alt="cover" />
+              <span className="text-xl font-semibold ml-2">{current.name}</span>
+            </div>
             <button className="bg-red-500 text-white px-4 py-1 rounded text-sm hover:opacity-80" onClick={leaveRoom}>Leave</button>
           </div>
           <Messages socket={socket} />
@@ -53,7 +65,21 @@ const Room = () => {
             <button type="button" onClick={sendMessage} className="bg-blue-500 text-white px-8 py-1.5 rounded-lg">Send</button>
           </div>
         </div>
-        <div className="w-1/4">Right</div>
+        <div className="w-1/4">
+          <div className="p-2">
+            <h3 className="font-bold">About</h3>
+            <p className="leading-4 text-md">{current.description}</p>
+          </div>
+          <div className="p-2">
+            <h3 className="font-bold">Rules</h3>
+            <ul className="leading-4 text-md">
+              <li>Please do not send spam</li>
+              <li>Please do not send hate messages</li>
+              <li>Please do not attack or abuse others</li>
+              <li>Please be specific to the room goal</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

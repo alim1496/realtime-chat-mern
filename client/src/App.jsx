@@ -26,8 +26,8 @@ function App() {
           <Route path="/" exact element={<ProtectedRoute />}>
             <Route path="/" exact element={ <Home />} />
           </Route>
-          <Route path="/chat" exact element={<ProtectedRoute />}>
-            <Route path="/chat" element={ <Room />} />
+          <Route path="/room/:id" exact element={<ProtectedRoute />}>
+            <Route path="/room/:id" element={ <Room />} />
           </Route>  
         </Routes>  
       </BrowserRouter>

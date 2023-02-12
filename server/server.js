@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { config } from "./config.js";
 import UserRoute from "./routes/UserRoute.js";
+import RoomRoute from "./routes/RoomRoute.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -53,5 +54,6 @@ mongoose.connect(config.MONGODB_URL,
 );
 
 app.use("/api/v1/users", UserRoute);
+app.use("/api/v1/rooms", RoomRoute);
 
 server.listen(4000, () => console.log("Server is running on port 4000"));

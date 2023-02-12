@@ -9,8 +9,21 @@ const Login = () => {
 
   const doLogin = () => {
     if (username === "" || password === "") return;
-    localStorage.setItem("username", username);
-    navigate("/", { state: { username }});
+
+    fetch("http://localhost:4000/api/v1/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then((res) => {
+      console.log(res);
+      localStorage.setItem("username", username);
+      navigate("/", { state: { username }});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   return (

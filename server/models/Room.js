@@ -13,10 +13,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         minLength: 20,
-        maxLength: 50
+        maxLength: 100
     },
     cover: {
-        type: URL
+        type: String
     },
     createdBy: {
         type: ObjectId,
