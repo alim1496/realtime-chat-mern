@@ -1,10 +1,17 @@
 import express from "express";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+import { config } from "./config.js";
+import UserRoute from "./routes/UserRoute.js";
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors());
+dotenv.config();
 
 const server = createServer(app);
 
@@ -36,5 +43,15 @@ io.on("connection", (socket) => {
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+
+mongoose.set("strictQuery", false);
+mongoose.connect(config.MONGODB_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, () => console.log("connected to mongoDB")
+);
+
+app.use("/api/v1/users", UserRoute);
 
 server.listen(4000, () => console.log("Server is running on port 4000"));
