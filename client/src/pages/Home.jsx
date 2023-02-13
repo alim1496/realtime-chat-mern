@@ -22,6 +22,7 @@ const Home = () => {
 
   const doLogout = () => {
     localStorage.removeItem("username");
+    localStorage.removeItem("userID");
     navigate("/login");
   };
 

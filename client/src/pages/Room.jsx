@@ -12,11 +12,17 @@ const Room = () => {
   const [current, setCurrent] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/v1/rooms/${params.id}`)
-    .then(res => res.json())
-    .then(({ result }) => setCurrent(result))
-    .catch(err => console.log(err));
+    fetchRoomDetails();
+    window.addEventListener("onpopstate", leaveRoom);
+    return () => window.removeEventListener("onpopstate", leaveRoom);
   }, []);
+
+  const fetchRoomDetails = () => {
+    fetch(`http://localhost:4000/api/v1/rooms/${params.id}`)
+      .then(res => res.json())
+      .then(({ result }) => setCurrent(result))
+      .catch(() => {});
+  };
 
   const pressSend = (e) => {
     if(e.key === "Enter") {
@@ -27,7 +33,19 @@ const Room = () => {
   const sendMessage = () => {
     if(msg !== "") {
       const timeCreated = Date.now();
-      socket.emit("send_message", { username, msg, timeCreated, room });
+      const _data = { username, msg, timeCreated, room };
+
+      
+      fetch("http://localhost:4000/api/v1/chats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: localStorage.getItem("userID"), room: params.id, message: msg, timecreated: timeCreated })
+      })
+      .then(res => res.json())
+      .then(() => {})
+      .catch(() => {});
+      
+      socket.emit("send_message", _data);
       setMsg("");
     }
   };
@@ -49,7 +67,7 @@ const Room = () => {
             </div>
             <button className="bg-red-500 text-white px-4 py-1 rounded text-sm hover:opacity-80" onClick={leaveRoom}>Leave</button>
           </div>
-          <Messages socket={socket} />
+          <Messages socket={socket} roomID={params.id} />
           <div className="p-4 bg-white absolute bottom-0 left-0 right-0 flex justify-between items-center z-50">
             <input 
               type="text" 

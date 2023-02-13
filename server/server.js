@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import { config } from "./config.js";
 import UserRoute from "./routes/UserRoute.js";
 import RoomRoute from "./routes/RoomRoute.js";
+import ChatRoute from "./routes/ChatRoute.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -31,13 +32,13 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     const { username, msg, timeCreated, room } = data;
-    io.in(room).emit('receive_message', data);
+    const _data = { message: msg, timecreated: timeCreated, sender: { username }};
+    io.in(room).emit('receive_message', _data);
   });
 
   socket.on("leave_room", (data) => {
     const { username, room } = data;
     socket.leave(room);
-    console.log(`${username} has left ${room}`);
   });
 });
 
@@ -55,5 +56,6 @@ mongoose.connect(config.MONGODB_URL,
 
 app.use("/api/v1/users", UserRoute);
 app.use("/api/v1/rooms", RoomRoute);
+app.use("/api/v1/chats", ChatRoute);
 
 server.listen(4000, () => console.log("Server is running on port 4000"));

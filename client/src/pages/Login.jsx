@@ -16,9 +16,9 @@ const Login = () => {
       body: JSON.stringify({ username, password })
     })
     .then(res => res.json())
-    .then((res) => {
-      console.log(res);
+    .then(({ userID }) => {
       localStorage.setItem("username", username);
+      localStorage.setItem("userID", userID);
       navigate("/", { state: { username }});
     })
     .catch((err) => {
