@@ -9,7 +9,7 @@ const schema = new mongoose.Schema({
         maxLength: 32,
         lowercase: true,
         trim: true,
-        match: [/^[a-z_.]+[0-9]*$/, "Enter a valid user name"]
+        match: [/^[a-z]+[0-9]*$/, "Enter a valid user name"]
     },
     password: {
         type: String,

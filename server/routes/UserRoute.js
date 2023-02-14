@@ -13,8 +13,8 @@ UserRoute.post("/register", (req, res) => {
         password: bcrypt.hashSync(req.body.password, config.SALT_ROUND)
     })
         .save()
-        .then((user) => res.status(201).json({ "message": "User registered successfully" }))
-        .catch((err) => res.status(500).json({ "message": `Could not create user ${err}` }));
+        .then((user) => res.status(201).json({ "success": true, "message": "User registered successfully" }))
+        .catch((err) => res.status(500).json({ "success": false, "message": `Could not create user ${err}` }));
 });
 
 UserRoute.post("/login", async (req, res) => {
