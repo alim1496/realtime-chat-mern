@@ -18,9 +18,11 @@ please open an issue first to discuss what you would like to change.
 
 ### Few Screenshots
 
-![Homepage](/screenshots/1.png "Homepage")
-![Chatpage](/screenshots/2.png "Chatpage")
-![Groupchat](/screenshots/3.png "Groupchat")
+![Login](/screenshots/login.png "Login")
+![Register](/screenshots/register.png "Register")
+![Homepage](/screenshots/home.png "Homepage")
+![Createroom](/screenshots/create.png "Createroom")
+![Chatroom](/screenshots/chat.png "Chatroom")
 
 ## Features
 
@@ -58,11 +60,6 @@ please open an issue first to discuss what you would like to change.
 
 MongoDB, Express, React, Node, Socket.IO, Tailwind CSS
 
-## Hosted/Deployed
-
-https://textalot.herokuapp.com/
-
-
 ## Usage
 
 **Test users**
@@ -70,7 +67,6 @@ https://textalot.herokuapp.com/
 | Username | Password  |
 | -------- | --------- |
 | tester | 1234567912 |
-| -------- | --------- |
 | john12 | 123218761 |
 
 ``` Or Simply Register.  ```
@@ -78,32 +74,22 @@ https://textalot.herokuapp.com/
 
 ### Env Variables
 
-Create a .env file in the root and add the following
+Create a .env file in the server folder and add the following
 
 ```
-NODE_ENV = development
-PORT = 5000
-MONGO_URI = <yourMongoDbUri>
-JWT_SECRET = <yourSecret>
+MONGODB_URL=<YOUR_MONGO_DB_URL>
+JWT_SERVER_SECRET=<YOUR_SECRET_KEY>
 ```
 
-### Install Dependencies (frontend & backend)
+### Install Dependencies & Run
 
 ```
-npm install
-cd frontend
-npm install
-```
-
-### Run
-Run frontend (:3000) & backend (:5000)
-```
-# Run frontend only
-cd frontend
-npm start 
-
-# Run backend only
-npm start
+cd server
+npx yarn
+npx yarn dev
+cd client
+npx yarn
+npx yarn dev
 ```
 
 
