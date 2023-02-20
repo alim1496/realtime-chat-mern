@@ -7,7 +7,7 @@ import logo from "../assets/logo.png";
 const _socket = io.connect('http://localhost:4000');
 
 const Home = () => {
-  const { setSocket, setRoom, setShowModal, publicRooms, setPublicRooms } = useContext(MainContext);
+  const { setSocket, setRoom, setShowModal, publicRooms, setPublicRooms, socket } = useContext(MainContext);
   const navigate = useNavigate();
   setSocket(_socket);
   
@@ -24,6 +24,7 @@ const Home = () => {
   const doLogout = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("userID");
+    socket.disconnect();
     navigate("/login");
   };
 

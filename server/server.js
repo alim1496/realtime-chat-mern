@@ -52,10 +52,6 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
-
 mongoose.set("strictQuery", false);
 mongoose.connect(config.MONGODB_URL,
   {
