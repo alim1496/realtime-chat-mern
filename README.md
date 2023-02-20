@@ -16,13 +16,19 @@ please open an issue first to discuss what you would like to change.
 
 ```
 
-### Few Screenshots
+### Screenshots
 
 ![Login](/screenshots/login.png "Login")
+<br/>
 ![Register](/screenshots/register.png "Register")
+<br/>
 ![Homepage](/screenshots/home.png "Homepage")
+<br/>
 ![Createroom](/screenshots/create.png "Createroom")
+<br/>
 ![Chatroom](/screenshots/chat.png "Chatroom")
+<br/>
+<br/>
 
 ## Features
 
