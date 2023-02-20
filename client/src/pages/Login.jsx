@@ -76,7 +76,11 @@ const Login = () => {
           document.querySelector("#reg_succ").style.display = "none";
         }, 3000);
       } else {
-        setRegError(message);
+        if(message.includes("duplicate key error")) {
+          setRegError(`${message.includes("username") ? "Username already exists" : "Email already exists"}`);
+        } else {
+          setRegError("Something went wrong. Please try again.");
+        }
       }
     });
   };

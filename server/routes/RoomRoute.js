@@ -28,8 +28,8 @@ RoomRoute.get("/:id", async (req, res) => {
 
 RoomRoute.post("/", (req, res) => {
     new Room(req.body).save()
-        .then(room => res.status(201).json({ "message": "Room created successfully" }))
-        .catch(err => res.status(500).json({ "message": `Could not create room ${err}` }));
+        .then(room => res.status(201).json({ "success": true, "message": "Room created successfully", "result": room }))
+        .catch(err => res.status(500).json({ "success": false, "message": `Could not create room ${err}` }));
 });
 
 export default RoomRoute;

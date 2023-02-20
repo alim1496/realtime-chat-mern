@@ -5,6 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import './App.css'
+import CreateModal from './components/CreateModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -15,11 +16,14 @@ export const MainContext = createContext();
 function App() {
   const [room, setRoom] = useState("");
   const [socket, setSocket] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [publicRooms, setPublicRooms] = useState([]);
 
   return (
     <MainContext.Provider value={{
-      room, socket, setRoom, setSocket
+      room, socket, setRoom, setSocket, showModal, setShowModal, publicRooms, setPublicRooms
     }}>
+      <CreateModal />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={ <Login />} />

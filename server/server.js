@@ -24,10 +24,16 @@ const io = new Server(server, {
   },
 });
 
+const users = new Map();
+
+
 io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
-    const { username, room} = data;
+    const { username, room } = data;
     socket.join(room);
+    if(!users.get(room)) users.set(room, [username]);
+    else users.get(room).push(username);
+    io.in(room).emit("new_user", { users: users.get(room) });
   });
 
   socket.on("send_message", (data) => {
@@ -39,6 +45,10 @@ io.on("connection", (socket) => {
   socket.on("leave_room", (data) => {
     const { username, room } = data;
     socket.leave(room);
+    let _users = users.get(room);
+    _users = _users ? _users.filter(u => u !== username) : [];
+    users.set(room, _users);
+    io.in(room).emit("new_user", { users: _users });
   });
 });
 

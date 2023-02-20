@@ -2,14 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { MainContext } from '../App';
+import logo from "../assets/logo.png";
 
 const _socket = io.connect('http://localhost:4000');
 
 const Home = () => {
-  const { setSocket, setRoom } = useContext(MainContext);
+  const { setSocket, setRoom, setShowModal, publicRooms, setPublicRooms } = useContext(MainContext);
   const navigate = useNavigate();
   setSocket(_socket);
-  const [publicRooms, setPublicRooms] = useState([]);
+  
 
   useEffect(() => {
     fetch("http://localhost:4000/api/v1/rooms")
@@ -34,26 +35,32 @@ const Home = () => {
   };
 
   return (
-    <div className="container p-4 bg-slate-50 h-screen">
-      <div className="flex justify-between">
-        <span className="text-lg">{localStorage.getItem("username")}</span>
-        <span className="font-bold hover:cursor-pointer" onClick={doLogout}>Logout</span>
-      </div>
-      <div className="mb-4">
-        <h3 className="font-bold mb-2 text-xl">Rooms</h3>
-        <div className="flex flex-wrap">
-          {publicRooms && publicRooms.map((room, index) => (
-            <div className="w-72 rounded shadow-lg mr-2 mb-2 bg-white p-2" key={index}>
-              <img src={room.cover} alt="cover" className="w-full h-36 mb-1" />
-              <div className="font-bold px-1">{room.name}</div>
-              <div className="px-1 text-xs mb-1">{room.description}</div>
-              <button className="bg-blue-500 text-white w-full py-2 rounded hover:opacity-80" onClick={()=>joinRoom(room._id)}>
-                Join Room
-              </button>
-            </div>
-          ))}
+    <div className="bg-slate-50">
+      <div className="container mx-auto h-screen">
+        <div className="flex justify-between items-center fixed top-0 left-0 right-0 bg-white p-4 shadow-md">
+          <img src={logo} alt="logo" className="w-24" />
+          <div className="flex items-center">
+            <span className="ml-4">Welcome {localStorage.getItem("username")}</span>
+            <button type="button" className="ml-4 px-4 py-1 rounded text-white bg-green-500 hover:cursor-pointer hover:opacity-80" onClick={()=>setShowModal(true)}>Create</button>
+            <span className="ml-4 font-bold hover:cursor-pointer" onClick={doLogout}>Logout</span>
+          </div>
         </div>
-      </div> 
+        <div className="px-4 py-20">
+          <h3 className="font-bold mb-2 text-xl">Rooms</h3>
+          <div className="flex flex-wrap">
+            {publicRooms && publicRooms.map((room, index) => (
+              <div className="w-72 rounded shadow-lg mr-2 mb-2 bg-white p-2" key={index}>
+                <img src={room.cover} alt="cover" className="w-full h-36 mb-1" />
+                <div className="font-bold px-1">{room.name}</div>
+                <div className="px-1 mb-1">{room.category}</div>
+                <button className="bg-blue-500 text-white w-full py-2 rounded hover:opacity-80" onClick={()=>joinRoom(room._id)}>
+                  Join Room
+                </button>
+              </div>
+            ))}
+          </div>
+        </div> 
+      </div>
     </div>
   );
 };
