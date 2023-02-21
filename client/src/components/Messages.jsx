@@ -7,7 +7,7 @@ const Messages = ({ socket, roomID }) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:4000/api/v1/chats/${roomID}`)
+        fetch(`/api/v1/chats/${roomID}`)
             .then(res => res.json())
             .then(({ result }) => {
                 result.reverse();

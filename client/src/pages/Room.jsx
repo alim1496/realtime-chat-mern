@@ -20,7 +20,7 @@ const Room = () => {
 
 
   const fetchRoomDetails = () => {
-    fetch(`http://localhost:4000/api/v1/rooms/${params.id}`)
+    fetch(`/api/v1/rooms/${params.id}`)
       .then(res => res.json())
       .then(({ result }) => setCurrent(result))
       .catch(() => {});
@@ -38,7 +38,7 @@ const Room = () => {
       const _data = { username, msg, timeCreated, room };
 
       
-      fetch("http://localhost:4000/api/v1/chats", {
+      fetch("/api/v1/chats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sender: localStorage.getItem("userID"), room: params.id, message: msg, timecreated: timeCreated })

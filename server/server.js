@@ -4,6 +4,8 @@ import { createServer } from "http";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import path, { dirname } from "path";
+import { fileURLToPath } from 'url';
 import { config } from "./config.js";
 import UserRoute from "./routes/UserRoute.js";
 import RoomRoute from "./routes/RoomRoute.js";
@@ -15,7 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 dotenv.config();
-
 
 
 const server = createServer(app);
@@ -69,4 +70,16 @@ app.use("/api/v1/users", UserRoute);
 app.use("/api/v1/rooms", RoomRoute);
 app.use("/api/v1/chats", ChatRoute);
 
-server.listen(4000, () => console.log("Server is running on port 4000"));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+if(process.env.NODE_ENV === "development") {
+  app.get("/", (req, res) => res.send("Hello World"));
+} else {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+  });
+}
+
+server.listen(config.PORT, () => console.log("Server started running"));

@@ -68,6 +68,7 @@ Create a .env file in the server folder and add the following
 ```
 MONGODB_URL=<YOUR_MONGO_DB_URL>
 JWT_SERVER_SECRET=<YOUR_SECRET_KEY>
+NODE_ENV="development"
 ```
 
 ### Install Dependencies & Run

@@ -13,7 +13,7 @@ const Home = () => {
   
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/v1/rooms")
+    fetch("/api/v1/rooms")
     .then(res => res.json())
     .then(({ result }) => {
       setPublicRooms(result);

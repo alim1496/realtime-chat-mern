@@ -57,7 +57,7 @@ const Login = () => {
       return;
     }
     const data = { username: regUser, password: regPass, email };
-    fetch("http://localhost:4000/api/v1/users/register", {
+    fetch("/api/v1/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
@@ -89,7 +89,7 @@ const Login = () => {
     setLoginError("");
     if (username === "" || password === "") return;
 
-    fetch("http://localhost:4000/api/v1/users/login", {
+    fetch("/api/v1/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
