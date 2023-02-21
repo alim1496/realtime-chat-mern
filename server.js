@@ -23,7 +23,7 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -76,7 +76,7 @@ const __dirname = dirname(__filename);
 if(process.env.NODE_ENV === "development") {
   app.get("/", (req, res) => res.send("Hello World"));
 } else {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.use(express.static(path.join(__dirname, "./client/dist")));
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
   });
