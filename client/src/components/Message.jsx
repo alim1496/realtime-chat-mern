@@ -1,5 +1,4 @@
 import React from 'react';
-import TimeAgo from "react-timeago";
 
 const Message = ({ message: { sender, message, timecreated } }) => {
     const isOwn = localStorage.getItem("username") === sender.username;

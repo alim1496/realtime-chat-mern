@@ -19,16 +19,11 @@ please open an issue first to discuss what you would like to change.
 ### Screenshots
 
 ![Login](/screenshots/login.png "Login")
-<br/>
 ![Register](/screenshots/register.png "Register")
-<br/>
 ![Homepage](/screenshots/home.png "Homepage")
-<br/>
 ![Createroom](/screenshots/create.png "Createroom")
-<br/>
 ![Chatroom](/screenshots/chat.png "Chatroom")
-<br/>
-<br/>
+
 
 ## Features
 
@@ -41,18 +36,11 @@ please open an issue first to discuss what you would like to change.
 <ul>
  <li> This is Simple Chat Application </li>
  <li> It is a Full Stack Application </li>
-</ul>
-
-- All the user details, group chats and conversations are stored in the [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-
-<ul>
+ <li>All the data are stored in the [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) </li>
  <li>Login/Signup as well as Logout feature is added </li>
  <li>Error will be shown if the credentials are not correct</li>
-</ul>
-
-- Real time communication & notification is supported using <a href="https://www.npmjs.com/package/socket.io">Socket.io</a>
-
-<ul>
+ <li>Shows realtime message when a user joins/leaves the room</li>
+ <li>Real time communication is supported using <a href="https://www.npmjs.com/package/socket.io">Socket.io</a></li>
  <li> All the conversation are stored in the database i.e. <i>persistant</i>
 </ul>
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { CHAT_BOT } from '../Constants';
 import Message from './Message';
 
 
@@ -30,9 +31,13 @@ const Messages = ({ socket, roomID }) => {
 
     return (
         <div className="py-20 px-4 overflow-y-auto" id="msg_container">
-            {messages && messages.map((message, index) => (
-                <Message message={message} key={index} />
-            ))}
+            {messages && messages.map((message, index) => {
+                if(message.sender.username === CHAT_BOT) {
+                    return <div key={index} className="py-2 text-xs w-fit m-auto opacity-70">{message.message}</div>
+                } else {
+                    return <Message message={message} key={index} />
+                }
+            })}
         </div>
     );
 }

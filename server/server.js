@@ -8,12 +8,15 @@ import { config } from "./config.js";
 import UserRoute from "./routes/UserRoute.js";
 import RoomRoute from "./routes/RoomRoute.js";
 import ChatRoute from "./routes/ChatRoute.js";
+import { CHAT_BOT } from "./utils/Constants.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 dotenv.config();
+
+
 
 const server = createServer(app);
 
@@ -34,6 +37,7 @@ io.on("connection", (socket) => {
     if(!users.get(room)) users.set(room, [username]);
     else users.get(room).push(username);
     io.in(room).emit("new_user", { users: users.get(room) });
+    io.in(room).emit("receive_message", { message: `${username} has joined the room`, timeCreated: Date.now(), sender: { username: CHAT_BOT } });
   });
 
   socket.on("send_message", (data) => {
@@ -49,6 +53,7 @@ io.on("connection", (socket) => {
     _users = _users ? _users.filter(u => u !== username) : [];
     users.set(room, _users);
     io.in(room).emit("new_user", { users: _users });
+    io.in(room).emit("receive_message", { message: `${username} has left the room`, timeCreated: Date.now(), sender: { username: CHAT_BOT } });
   });
 });
 
