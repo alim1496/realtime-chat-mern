@@ -79,7 +79,6 @@ NODE_ENV="development"
 ### Install Dependencies & Run
 
 ```
-cd server
 npx yarn
 npx yarn dev
 cd client
