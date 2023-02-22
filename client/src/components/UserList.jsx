@@ -6,11 +6,20 @@ const UserList = ({ socket }) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        socket.on("new_user", (data) => {
+        if(!socket) {
+            const _userArr = JSON.parse(localStorage.getItem("currentUsers"));
+            setUsers(_userArr);
+            setCount(_userArr.length);
+        }
+    }, []);
+
+    useEffect(() => {
+        socket && socket.on("new_user", (data) => {
           setUsers(data.users);
           setCount(data.users.length);
+          localStorage.setItem("currentUsers", JSON.stringify(data.users));
         });
-        return () => socket.off("new_user");
+        return () => socket && socket.off("new_user");
       }, [socket]);
 
 

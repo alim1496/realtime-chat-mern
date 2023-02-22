@@ -9,17 +9,20 @@ const _socket = io.connect('http://localhost:4000');
 const Home = () => {
   const { setSocket, setRoom, setShowModal, publicRooms, setPublicRooms, socket } = useContext(MainContext);
   const navigate = useNavigate();
-  setSocket(_socket);
-  
 
   useEffect(() => {
-    fetch("/api/v1/rooms")
-    .then(res => res.json())
-    .then(({ result }) => {
-      setPublicRooms(result);
-    })
-    .catch(err => console.log(err));
+    fetchRooms();
+    setSocket(_socket);
   }, []);
+
+  const fetchRooms = () => {
+    fetch("/api/v1/rooms")
+      .then(res => res.json())
+      .then(({ result }) => {
+        setPublicRooms(result);
+      })
+      .catch(err => console.log(err));
+  };
 
   const doLogout = () => {
     localStorage.removeItem("username");

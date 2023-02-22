@@ -56,6 +56,8 @@ io.on("connection", (socket) => {
     io.in(room).emit("new_user", { users: _users });
     io.in(room).emit("receive_message", { message: `${username} has left the room`, timeCreated: Date.now(), sender: { username: CHAT_BOT } });
   });
+
+  socket.on("disconnect", (d) => console.log(`socket disconnected with ${d}`));
 });
 
 mongoose.set("strictQuery", false);

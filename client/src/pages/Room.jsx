@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { MainContext } from '../App';
 import Messages from '../components/Messages';
 import UserList from '../components/UserList';
+import { DEV_URL } from '../Constants';
 
 const Room = () => {
-  const { room, socket } = useContext(MainContext);
+  const { room, socket, setSocket, setRoom } = useContext(MainContext);
   const navigate = useNavigate();
   const params = useParams();
   const username = localStorage.getItem("username");
@@ -13,6 +15,10 @@ const Room = () => {
   const [current, setCurrent] = useState({});
 
   useEffect(() => {
+    if(!socket) {
+      setSocket(io.connect(DEV_URL));
+      setRoom(params.id);
+    }
     fetchRoomDetails();
     window.addEventListener("onpopstate", leaveRoom);
     return () => window.removeEventListener("onpopstate", leaveRoom);
