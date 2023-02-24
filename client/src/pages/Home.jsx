@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { MainContext } from '../App';
 import logo from "../assets/logo.png";
+import { DEV_URL } from '../Constants';
 
-const _socket = io.connect('http://localhost:4000');
+const _socket = io(DEV_URL);
 
 const Home = () => {
   const { setSocket, setRoom, setShowModal, publicRooms, setPublicRooms, socket } = useContext(MainContext);

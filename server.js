@@ -30,14 +30,26 @@ const io = new Server(server, {
 
 const users = new Map();
 
+const getUserNames = (room) => {
+  const userlist = users.get(room);
+  let namesOnly = [];
+  userlist.forEach((_user) => {
+    namesOnly.push(_user.username);
+  });
+  return namesOnly;
+};
 
 io.on("connection", (socket) => {
+  console.log(JSON.stringify(socket.handshake.query));
+  if(socket.handshake.headers.username) {
+    console.log(`${socket.handshake.headers.username} joined`);
+  }
   socket.on("join_room", (data) => {
     const { username, room } = data;
     socket.join(room);
-    if(!users.get(room)) users.set(room, [username]);
-    else users.get(room).push(username);
-    io.in(room).emit("new_user", { users: users.get(room) });
+    if(!users.get(room)) users.set(room, [{ username, id: socket.id }]);
+    else users.get(room).push({ username, id: socket.id });
+    io.in(room).emit("new_user", { users: getUserNames(room) });
     io.in(room).emit("receive_message", { message: `${username} has joined the room`, timeCreated: Date.now(), sender: { username: CHAT_BOT } });
   });
 
@@ -51,13 +63,17 @@ io.on("connection", (socket) => {
     const { username, room } = data;
     socket.leave(room);
     let _users = users.get(room);
-    _users = _users ? _users.filter(u => u !== username) : [];
+    _users = _users ? _users.filter(u => u.username !== username) : [];
     users.set(room, _users);
-    io.in(room).emit("new_user", { users: _users });
+    io.in(room).emit("new_user", { users: getUserNames(room) });
     io.in(room).emit("receive_message", { message: `${username} has left the room`, timeCreated: Date.now(), sender: { username: CHAT_BOT } });
   });
 
-  socket.on("disconnect", (d) => console.log(`socket disconnected with ${d}`));
+  socket.on("disconnect", (d) => { 
+    console.log(`socket disconnected with ${d}`);
+    const clients = io.sockets.adapter.rooms.get("63ede513dcc52465c40609bf");
+    console.log(clients);
+  });
 });
 
 mongoose.set("strictQuery", false);

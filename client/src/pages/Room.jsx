@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { MainContext } from '../App';
@@ -13,17 +13,17 @@ const Room = () => {
   const username = localStorage.getItem("username");
   const [msg, setMsg] = useState("");
   const [current, setCurrent] = useState({});
+  const pageReload = useRef(false);
 
   useEffect(() => {
     if(!socket) {
-      setSocket(io.connect(DEV_URL));
+      setSocket(io(DEV_URL, { query: { username: "x" } }));
       setRoom(params.id);
     }
     fetchRoomDetails();
     window.addEventListener("onpopstate", leaveRoom);
     return () => window.removeEventListener("onpopstate", leaveRoom);
   }, []);
-
 
   const fetchRoomDetails = () => {
     fetch(`/api/v1/rooms/${params.id}`)
