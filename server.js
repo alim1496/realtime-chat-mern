@@ -40,9 +40,17 @@ const getUserNames = (room) => {
 };
 
 io.on("connection", (socket) => {
-  console.log(JSON.stringify(socket.handshake.query));
-  if(socket.handshake.headers.username) {
-    console.log(`${socket.handshake.headers.username} joined`);
+  if(socket.handshake.query.username) {
+    socket.join(socket.handshake.query.room);
+    const _room = users.get(socket.handshake.query.room) || [];
+    const _updatedRoom = _room.map((_obj) => {
+      if(_obj.username === socket.handshake.query.username) {
+        _obj.id = socket.id;
+      }
+      return _obj;
+    });
+    users.set(socket.handshake.query.room, _updatedRoom);
+    io.in(socket.handshake.query.room).emit("new_user", { users: getUserNames(socket.handshake.query.room) });
   }
   socket.on("join_room", (data) => {
     const { username, room } = data;
@@ -71,8 +79,8 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", (d) => { 
     console.log(`socket disconnected with ${d}`);
-    const clients = io.sockets.adapter.rooms.get("63ede513dcc52465c40609bf");
-    console.log(clients);
+    // const clients = io.sockets.adapter.rooms.get("63ede513dcc52465c40609bf");
+    // console.log(clients);
   });
 });
 
@@ -100,4 +108,4 @@ if(process.env.NODE_ENV === "development") {
   });
 }
 
-server.listen(config.PORT, () => console.log("Server started running"));
+server.listen(config.PORT, () => console.log(`Server started running on port ${config.PORT}`));

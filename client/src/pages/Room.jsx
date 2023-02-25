@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { MainContext } from '../App';
 import Messages from '../components/Messages';
 import UserList from '../components/UserList';
-import { DEV_URL } from '../Constants';
+import { DEV_URL, PROD_URL } from '../Constants';
 
 const Room = () => {
   const { room, socket, setSocket, setRoom } = useContext(MainContext);
@@ -13,11 +13,10 @@ const Room = () => {
   const username = localStorage.getItem("username");
   const [msg, setMsg] = useState("");
   const [current, setCurrent] = useState({});
-  const pageReload = useRef(false);
 
   useEffect(() => {
     if(!socket) {
-      setSocket(io(DEV_URL, { query: { username: "x" } }));
+      setSocket(io(PROD_URL, { query: { username, room: params.id } }));
       setRoom(params.id);
     }
     fetchRoomDetails();
@@ -43,7 +42,6 @@ const Room = () => {
       const timeCreated = Date.now();
       const _data = { username, msg, timeCreated, room };
 
-      
       fetch("/api/v1/chats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
