@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 import { MainContext } from '../App';
 import Messages from '../components/Messages';
 import UserList from '../components/UserList';
@@ -13,10 +15,12 @@ const Room = () => {
   const username = localStorage.getItem("username");
   const [msg, setMsg] = useState("");
   const [current, setCurrent] = useState({});
+  const [pickerVisible, setPickerVisible] = useState(false);
+  const [currentEmoji, setCurrentEmoji] = useState(null);
 
   useEffect(() => {
     if(!socket) {
-      setSocket(io(PROD_URL, { query: { username, room: params.id } }));
+      setSocket(io(DEV_URL, { query: { username, room: params.id } }));
       setRoom(params.id);
     }
     fetchRoomDetails();
@@ -61,6 +65,11 @@ const Room = () => {
     navigate("/", { replace: true });
   };
 
+  const handleEmojiSelect = (e) => {
+    const _msg = msg + e.native;
+    setMsg(_msg); 
+  };
+
   return (
     <div className="bg-slate-50">
       <div className="container mx-auto h-screen">
@@ -84,7 +93,8 @@ const Room = () => {
                 onKeyDown={pressSend}
                 value={msg}
               />
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              {pickerVisible && <Picker data={data} previewPosition="none" onEmojiSelect={handleEmojiSelect} />}
+              <svg onClick={()=>setPickerVisible(!pickerVisible)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 cursor-pointer hover:opacity-70">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
               </svg>
               <button type="button" onClick={sendMessage} className="bg-blue-500 text-white px-8 py-1.5 rounded-lg">Send</button>
