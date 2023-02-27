@@ -88,10 +88,11 @@ const Room = () => {
               <input 
                 type="text" 
                 className="w-4/5 border-2 rounded-lg h-10 pl-2 focus:outline-none" 
-                placeholder="type your message..." 
+                placeholder="type your message (max length: 500)" 
                 onChange={(e)=>setMsg(e.target.value)}
                 onKeyDown={pressSend}
                 value={msg}
+                maxLength="500"
               />
               {pickerVisible && <div className="absolute bottom-24 right-8"><Picker data={data} previewPosition="none" onEmojiSelect={handleEmojiSelect} /></div>}
               <svg onClick={()=>setPickerVisible(!pickerVisible)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 cursor-pointer hover:opacity-70">
