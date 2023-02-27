@@ -5,7 +5,7 @@ import { MainContext } from '../App';
 import logo from "../assets/logo.png";
 import { DEV_URL, PROD_URL } from '../Constants';
 
-const _socket = io(DEV_URL);
+const _socket = io(PROD_URL);
 
 const Home = () => {
   const { setSocket, setRoom, setShowModal, publicRooms, setPublicRooms, socket } = useContext(MainContext);

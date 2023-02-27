@@ -20,7 +20,7 @@ const Room = () => {
 
   useEffect(() => {
     if(!socket) {
-      setSocket(io(DEV_URL, { query: { username, room: params.id } }));
+      setSocket(io(PROD_URL, { query: { username, room: params.id } }));
       setRoom(params.id);
     }
     fetchRoomDetails();
