@@ -20,12 +20,12 @@ const Room = () => {
 
   useEffect(() => {
     if(!socket) {
-      setSocket(io(PROD_URL, { query: { username, room: params.id } }));
+      setSocket(io(DEV_URL, { query: { username, room: params.id } }));
       setRoom(params.id);
     }
     fetchRoomDetails();
-    window.addEventListener("onpopstate", leaveRoom);
-    return () => window.removeEventListener("onpopstate", leaveRoom);
+    window.addEventListener("popstate", () => setTimeout(leaveRoom, 0));
+    return () => window.removeEventListener("popstate", () => setTimeout(leaveRoom, 0));
   }, []);
 
   const fetchRoomDetails = () => {
