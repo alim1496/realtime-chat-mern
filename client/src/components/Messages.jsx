@@ -30,7 +30,7 @@ const Messages = ({ socket, roomID }) => {
     }, [messages]);
 
     return (
-        <div className="py-20 px-4 overflow-y-auto" id="msg_container">
+        <div className="h-83/100 px-4 overflow-y-auto" id="msg_container">
             {messages && messages.map((message, index) => {
                 if(message.sender.username === CHAT_BOT) {
                     return <div key={index} className="py-2 text-xs w-fit m-auto opacity-70">{message.message}</div>
