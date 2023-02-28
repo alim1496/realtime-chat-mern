@@ -16,11 +16,10 @@ const Room = () => {
   const [msg, setMsg] = useState("");
   const [current, setCurrent] = useState({});
   const [pickerVisible, setPickerVisible] = useState(false);
-  const [currentEmoji, setCurrentEmoji] = useState(null);
 
   useEffect(() => {
     if(!socket) {
-      setSocket(io(DEV_URL, { query: { username, room: params.id } }));
+      setSocket(io(PROD_URL, { query: { username, room: params.id } }));
       setRoom(params.id);
     }
     fetchRoomDetails();
