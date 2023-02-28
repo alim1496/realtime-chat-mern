@@ -16,6 +16,7 @@ module.exports = {
         "5v": "5vh",
         "10v": "10vh",
 				"80v": "80vh",
+        "90v": "90vh",
       }
     },
     fontFamily: {
