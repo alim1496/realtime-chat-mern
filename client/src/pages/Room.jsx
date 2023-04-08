@@ -71,10 +71,10 @@ const Room = () => {
 
   return (
     <div className="bg-slate-50">
-      <div className="container mx-auto h-screen">
+      <div className="container mx-auto h-screen overflow-x-auto">
         <div className="flex">
           <UserList socket={socket} />
-          <div className="w-1/2 border-2 h-screen relative">
+          <div style={{ minWidth: "425px" }} className="w-1/2 border-2 h-screen relative">
             <div className="flex justify-between items-center px-4 h-7/100 bg-white shadow-sm">
               <div className="flex items-center">
                 <img src={current.cover} className="h-10 w-10 rounded-full" alt="cover" />
@@ -100,7 +100,7 @@ const Room = () => {
               <button type="button" onClick={sendMessage} className="bg-blue-500 text-white px-8 py-1.5 rounded-lg">Send</button>
             </div>
           </div>
-          <div className="w-1/4">
+          <div className="w-1/4 hidden sm:block">
             <div className="p-2">
               <h3 className="font-bold">About</h3>
               <p className="leading-4 text-md">{current.description}</p>

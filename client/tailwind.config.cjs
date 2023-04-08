@@ -17,6 +17,9 @@ module.exports = {
         "10v": "10vh",
 				"80v": "80vh",
         "90v": "90vh",
+      },
+      width: {
+        "425": "425px"
       }
     },
     fontFamily: {
