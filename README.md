@@ -58,7 +58,7 @@ MongoDB, Express, React, Node, Socket.IO, Tailwind CSS
 | -------- | --------- |
 | tester | 1234567912 |
 | john12 | 123218761 |
-
+| jack12 | 12345678 |
 ``` Or Simply Register.  ```
 
 
