@@ -8,14 +8,6 @@ This application uses [React JS](https://reactjs.org/docs/getting-started.html) 
 
 Back end is implemented using [Node JS](https://nodejs.org/en/docs), [Express JS](https://expressjs.com/en/api.html) and [MongoDB](https://docs.mongodb.com/). [Atlas](https://www.mongodb.com/cloud/atlas), the _Cloud_ version of [MongoDB](https://docs.mongodb.com/) is used. Real time communication is done using [Socket.io](https://www.npmjs.com/package/socket.io).
 
-```
-This is still a work in progress
-If you find any bugs you can report it to me.
-Pull requests are always welcome. For major changes, 
-please open an issue first to discuss what you would like to change.
-
-```
-
 ### Screenshots
 
 ![Login](/screenshots/login.png "Login")
